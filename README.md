@@ -1,42 +1,39 @@
-# One Pace Facil
+# One Pace Facil ES Editable por episodios
 
-Mini app web para movil con un boton grande para abrir el siguiente enlace de One Pace y guardar el progreso en el propio telefono.
+Mini app web para movil.
 
-## Que hace
+- Usa One Pace ES donde ya hay subtitulos en espanol.
+- En los huecos de One Pace ES, avanza episodio a episodio.
+- Solo tienes que editar `custom-links.js` para pegar tus propios enlaces.
 
-- Muestra el siguiente punto a ver.
-- Abre el enlace directo con un toque.
-- Guarda el progreso en el movil.
-- Se puede instalar en la pantalla de inicio como PWA.
-- Incluye una lista precargada con enlaces de la pagina en espanol de One Pace.
+## Huecos que deja preparados esta version
 
-## Como usar
+Segun la pagina de One Pace ES:
 
-1. Sube esta carpeta a cualquier hosting estatico:
-   - GitHub Pages
-   - Netlify
-   - Vercel
-   - tu propio servidor web
-2. Abre la URL desde el movil.
-3. Usa "Anadir a pantalla de inicio" o el boton "Instalar" si aparece.
+- Long Ring Long Land: Anime Sources 207-228, no disponible en tu idioma.
+- Water Seven: Anime Sources 229-263, solo doblaje ES, no subtitulos ES.
+- Post-Enies Lobby: Anime Sources 313-325, no disponible en tu idioma.
+- Egghead: Anime Sources 1086- en la pagina; aqui queda preparado hasta el 1155.
+- Special: One Piece Fan Letter: no disponible en tu idioma.
+
+## Que editar
+
+Abre `custom-links.js` y pega tus URLs.
+
+Ejemplo:
+
+```js
+window.customEpisodeLinks = {
+  "water-seven": {
+    "229": "https://tu-enlace-aqui"
+  }
+};
+```
 
 ## Uso diario
 
-- Toca `Ver ahora`.
-- Cuando termine, vuelve a la app.
-- Toca `Ya lo he visto`.
+1. Toca `Ver ahora`.
+2. Cuando termine, vuelve a la app.
+3. Toca `Ya lo he visto`.
 
-## Notas
-
-- El progreso se guarda en `localStorage`, asi que si se borra la cache o se cambia de movil, el progreso no se transfiere.
-- Algunos puntos de la lista no tienen subtitulos en espanol disponibles en One Pace y se marcan como no disponibles.
-- Water Seven figura sin subtitulos en espanol en la pagina revisada; aparece solo doblaje en espanol.
-
-## Personalizar
-
-Si quieres, puedes editar `app.js` y cambiar el array `episodes` para:
-
-- modificar nombres
-- cambiar enlaces
-- quitar especiales
-- poner tu propio orden
+En los arcos rellenables, la app avanzara al siguiente episodio del mismo arco, no al siguiente arco.
