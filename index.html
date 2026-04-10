@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <title>One Pace Fácil</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <p class="eyebrow">Acceso rápido para móvil</p>
+      <h1>One Pace Fácil</h1>
+      <p class="subtitle">Un toque para abrir el siguiente capítulo o arco.</p>
+    </header>
+
+    <section class="card current-card">
+      <div class="progress-row">
+        <span id="progressText">Cargando…</span>
+        <button id="installBtn" class="ghost small hidden" type="button">Instalar</button>
+      </div>
+      <h2 id="episodeTitle">Preparando lista…</h2>
+      <p id="episodeMeta" class="meta"></p>
+      <p id="episodeNote" class="note"></p>
+
+      <div class="actions">
+        <button id="openBtn" class="primary action-btn" type="button">Ver ahora</button>
+        <button id="doneBtn" class="secondary action-btn" type="button">Ya lo he visto</button>
+      </div>
+
+      <div id="unavailableBox" class="unavailable hidden">
+        <p>Este punto no tiene enlace subtitulado disponible en One Pace ES ahora mismo.</p>
+        <button id="skipBtn" class="secondary action-btn" type="button">Saltar al siguiente disponible</button>
+      </div>
+    </section>
+
+    <section class="card simple-help">
+      <h3>Uso</h3>
+      <ol>
+        <li>Toca <strong>Ver ahora</strong>.</li>
+        <li>Cuando termine, vuelve aquí.</li>
+        <li>Toca <strong>Ya lo he visto</strong>.</li>
+      </ol>
+    </section>
+
+    <details class="card admin">
+      <summary>Opciones</summary>
+      <div class="admin-grid">
+        <label>
+          Ir a un punto concreto
+          <select id="jumpSelect"></select>
+        </label>
+        <div class="inline-buttons">
+          <button id="jumpBtn" class="ghost" type="button">Ir</button>
+          <button id="prevBtn" class="ghost" type="button">Anterior</button>
+          <button id="nextBtn" class="ghost" type="button">Siguiente</button>
+        </div>
+        <button id="resetBtn" class="danger" type="button">Reiniciar progreso</button>
+      </div>
+    </details>
+
+    <section class="card full-list">
+      <h3>Lista completa</h3>
+      <div id="listContainer" class="list"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
