@@ -4,7 +4,7 @@ Mini app web para movil.
 
 - Usa One Pace ES donde ya hay subtitulos en espanol.
 - En los huecos de One Pace ES, avanza episodio a episodio.
-- Solo tienes que editar `custom-links.js` para pegar tus propios enlaces.
+- Solo tienes que editar `custom-links.js` para pegar tus propios enlaces. 
 
 ## Huecos que deja preparados esta version
 
