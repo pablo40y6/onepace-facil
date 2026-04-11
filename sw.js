@@ -1,4 +1,4 @@
-const CACHE_NAME = 'onepace-facil-es-custom-episodes-v2';
+const CACHE_NAME = 'onepace-facil-es-custom-episodes-v3';
 const ASSETS = [
   './',
   './index.html',
