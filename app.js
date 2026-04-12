@@ -45,6 +45,7 @@ const customEpisodeLinks = window.customEpisodeLinks || {};
 const items = buildItems();
 let currentIndex = loadIndex();
 let deferredPrompt = null;
+const expandedArcSlugs = new Set();
 
 const progressText = document.getElementById('progressText');
 const episodeTitle = document.getElementById('episodeTitle');
@@ -163,34 +164,152 @@ function fillJumpSelect() {
   });
 }
 
+function buildListGroups() {
+  const groups = [];
+  const seenArcSlugs = new Set();
+
+  items.forEach((item, index) => {
+    if (item.kind === 'custom_episode') {
+      if (seenArcSlugs.has(item.arcSlug)) return;
+
+      const children = items
+        .map((entry, entryIndex) => ({ entry, entryIndex }))
+        .filter(({ entry }) => entry.kind === 'custom_episode' && entry.arcSlug === item.arcSlug);
+
+      groups.push({
+        type: 'custom_arc',
+        arcSlug: item.arcSlug,
+        title: item.title,
+        rangeLabel: item.groupLabel,
+        children
+      });
+
+      seenArcSlugs.add(item.arcSlug);
+      return;
+    }
+
+    groups.push({
+      type: 'single',
+      item,
+      index
+    });
+  });
+
+  return groups;
+}
+
 function renderList() {
   listContainer.innerHTML = '';
-  items.forEach((item, index) => {
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = 'list-item';
-    if (index === currentIndex) card.classList.add('current');
-    if (index < currentIndex) card.classList.add('done');
-    if (!item.available || !item.url) card.classList.add('unavailable-item');
 
-    let badge = '';
-    if (index === currentIndex) badge = '<span class="badge current">Actual</span>';
-    else if (index < currentIndex) badge = '<span class="badge done">Visto</span>';
-    else if (!item.available || !item.url) badge = '<span class="badge unavailable">Rellenar</span>';
+  const current = currentItem();
 
-    const meta = item.kind === 'custom_episode'
-      ? `${item.orderLabel} · ${item.groupLabel}`
-      : (item.meta || '');
+  if (current.kind === 'custom_episode' && current.arcSlug) {
+    expandedArcSlugs.add(current.arcSlug);
+  }
 
-    card.innerHTML = `
-      <div class="list-top">
-        <strong>${index + 1}. ${escapeHtml(item.displayTitle)}</strong>
-        ${badge}
+  const groups = buildListGroups();
+
+  groups.forEach((group) => {
+    if (group.type === 'single') {
+      const { item, index } = group;
+
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'list-item';
+      if (index === currentIndex) card.classList.add('current');
+      if (index < currentIndex) card.classList.add('done');
+      if (!item.available) card.classList.add('unavailable-item');
+
+      let badge = '';
+      if (index === currentIndex) badge = '<span class="badge current">Actual</span>';
+      else if (index < currentIndex) badge = '<span class="badge done">Visto</span>';
+      else if (!item.available) badge = '<span class="badge unavailable">No disponible</span>';
+
+      card.innerHTML = `
+        <div class="list-top">
+          <strong>${escapeHtml(item.title)}</strong>
+          ${badge}
+        </div>
+        <div class="list-meta">${escapeHtml(item.meta || '')}</div>
+      `;
+
+      card.addEventListener('click', () => moveTo(index));
+      listContainer.appendChild(card);
+      return;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'arc-group';
+
+    const firstIndex = group.children[0].entryIndex;
+    const lastIndex = group.children[group.children.length - 1].entryIndex;
+    const configuredCount = group.children.filter(({ entry }) => entry.available).length;
+    const isCurrentArc = current.kind === 'custom_episode' && current.arcSlug === group.arcSlug;
+    const isArcDone = currentIndex > lastIndex;
+    const isExpanded = expandedArcSlugs.has(group.arcSlug);
+
+    const header = document.createElement('button');
+    header.type = 'button';
+    header.className = 'arc-header';
+    if (isCurrentArc) header.classList.add('current');
+    if (isArcDone) header.classList.add('done');
+
+    let headerBadge = '';
+    if (isCurrentArc) headerBadge = '<span class="badge current">Actual</span>';
+    else if (isArcDone) headerBadge = '<span class="badge done">Visto</span>';
+    else headerBadge = `<span class="badge">${configuredCount}/${group.children.length} enlaces</span>`;
+
+    header.innerHTML = `
+      <div class="arc-header-top">
+        <strong>${escapeHtml(group.title)}</strong>
+        ${headerBadge}
       </div>
-      <div class="list-meta">${escapeHtml(meta)}</div>
+      <div class="arc-subtitle">${escapeHtml(group.rangeLabel || '')}</div>
+      <div class="arc-subtitle">${isExpanded ? 'Ocultar episodios' : 'Ver episodios'}</div>
     `;
-    card.addEventListener('click', () => moveTo(index));
-    listContainer.appendChild(card);
+
+    header.addEventListener('click', () => {
+      if (expandedArcSlugs.has(group.arcSlug)) expandedArcSlugs.delete(group.arcSlug);
+      else expandedArcSlugs.add(group.arcSlug);
+      renderList();
+    });
+
+    wrapper.appendChild(header);
+
+    if (isExpanded) {
+      const childrenBox = document.createElement('div');
+      childrenBox.className = 'arc-children';
+
+      group.children.forEach(({ entry, entryIndex }) => {
+        const child = document.createElement('button');
+        child.type = 'button';
+        child.className = 'child-item';
+
+        if (entryIndex === currentIndex) child.classList.add('current');
+        if (entryIndex < currentIndex) child.classList.add('done');
+        if (!entry.available) child.classList.add('unavailable-item');
+
+        let childBadge = '';
+        if (entryIndex === currentIndex) childBadge = '<span class="badge current">Actual</span>';
+        else if (entryIndex < currentIndex) childBadge = '<span class="badge done">Visto</span>';
+        else if (!entry.available) childBadge = '<span class="badge unavailable">Sin enlace</span>';
+
+        child.innerHTML = `
+          <div class="list-top">
+            <span class="child-title">Episodio ${escapeHtml(String(entry.episodeNumber || ''))}</span>
+            ${childBadge}
+          </div>
+          <div class="child-meta">${escapeHtml(entry.available ? 'Enlace configurado' : 'Sin enlace configurado')}</div>
+        `;
+
+        child.addEventListener('click', () => moveTo(entryIndex));
+        childrenBox.appendChild(child);
+      });
+
+      wrapper.appendChild(childrenBox);
+    }
+
+    listContainer.appendChild(wrapper);
   });
 }
 
