@@ -62,6 +62,7 @@ const jumpBtn = document.getElementById('jumpBtn');
 const unavailableBox = document.getElementById('unavailableBox');
 const listContainer = document.getElementById('listContainer');
 const installBtn = document.getElementById('installBtn');
+const currentCard = document.querySelector('.current-card');
 
 function range(start, end) {
   const out = [];
@@ -133,6 +134,13 @@ function moveTo(index) {
   currentIndex = Math.max(0, Math.min(index, items.length - 1));
   saveIndex();
   render();
+
+  requestAnimationFrame(() => {
+    currentCard?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  });
 }
 
 function nextAvailableIndex(fromIndex) {
@@ -323,7 +331,9 @@ function render() {
   } else {
     episodeMeta.textContent = item.meta || '';
   }
-  episodeNote.textContent = item.note || 'El progreso queda guardado en este movil.';
+  const hideNote = item.kind === 'custom_episode';
+episodeNote.textContent = hideNote ? '' : (item.note || 'El progreso queda guardado en este movil.');
+episodeNote.classList.toggle('hidden', hideNote);
   openBtn.classList.toggle('hidden', !isAvailable);
   unavailableBox.classList.toggle('hidden', isAvailable);
   doneBtn.textContent = currentIndex >= items.length - 1 ? 'Terminado' : 'Ya lo he visto';
