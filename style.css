@@ -49,3 +49,80 @@ select { width: 100%; min-height: 52px; border-radius: 14px; border: 1px solid #
 .badge.unavailable { background: rgba(245, 158, 11, .14); color: #ffd28a; }
 .list-meta { color: var(--muted); font-size: 14px; }
 @media (min-width: 640px) { .actions { grid-template-columns: 1.2fr .8fr; } }
+
+.arc-group {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.arc-header {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid #343434;
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.arc-header.current {
+  outline: 2px solid rgba(225, 29, 47, .75);
+}
+
+.arc-header.done {
+  opacity: .72;
+}
+
+.arc-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.arc-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.arc-children {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+  margin-left: 6px;
+  border-left: 2px solid #3a3a3a;
+}
+
+.child-item {
+  text-align: left;
+  background: #131313;
+  color: var(--text);
+  border: 1px solid #2f2f2f;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.child-item.current {
+  outline: 2px solid rgba(225, 29, 47, .75);
+}
+
+.child-item.done {
+  opacity: .72;
+}
+
+.child-title {
+  font-weight: 700;
+}
+
+.child-meta {
+  color: var(--muted);
+  font-size: 14px;
+}
