@@ -3,7 +3,7 @@ window.customEpisodeLinks = {
   // Rellena unicamente la URL de cada episodio que quieras activar.
   // Ejemplo: "229": "https://tu-enlace-aqui"
 
-  // Long Ring Long Land - One Pace ES indica Anime Sources 207-228 y que no esta disponible en tu idioma.
+  // Long Ring Long Land 
   "long-ring-long-land": {
     "207": "https://www4.animeflv.net/ver/one-piece-tv-207",
 "208": "https://www4.animeflv.net/ver/one-piece-tv-208",
@@ -29,7 +29,7 @@ window.customEpisodeLinks = {
 "228": "https://www4.animeflv.net/ver/one-piece-tv-228"
   },
 
-  // Water Seven - One Pace ES indica Anime Sources 229-263 y solo doblaje ES, no subtitulos ES.
+  // Water Seven 
   "water-seven": {
     "229": "https://www4.animeflv.net/ver/one-piece-tv-229",
 "230": "https://www4.animeflv.net/ver/one-piece-tv-230",
@@ -68,7 +68,7 @@ window.customEpisodeLinks = {
 "263": "https://www4.animeflv.net/ver/one-piece-tv-263"
   },
 
-  // Post-Enies Lobby - One Pace ES indica Anime Sources 313-325 y que no esta disponible en tu idioma.
+  // Post-Enies Lobby 
   "post-enies-lobby": {
     "313": "https://www4.animeflv.net/ver/one-piece-tv-313",
 "314": "https://www4.animeflv.net/ver/one-piece-tv-314",
@@ -85,7 +85,7 @@ window.customEpisodeLinks = {
 "325": "https://www4.animeflv.net/ver/one-piece-tv-325"
   },
 
-  // Egghead - One Pace ES muestra Anime Sources 1086-; aqui lo dejo preparado hasta el 1155.
+  // Egghead 
   "egghead": {
     "1086": "https://www4.animeflv.net/ver/one-piece-tv-1086",
 "1087": "https://www4.animeflv.net/ver/one-piece-tv-1087",
